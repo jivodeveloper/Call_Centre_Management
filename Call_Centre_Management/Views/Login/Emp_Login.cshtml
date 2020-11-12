@@ -1,0 +1,141 @@
+﻿@model IEnumerable<Call_Centre_Management.Models.MenuMaster>
+@{
+    ViewBag.Title = "Emp Login";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    #nav {
+        list-style: none inside;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+
+        #nav li {
+            display: block;
+            position: relative;
+            float: left;
+            background: #24af15; /* menu background color */
+        }
+
+            #nav li a {
+                display: block;
+                padding: 0;
+                text-decoration: none;
+                width: 200px; /* this is the width of the menu items */
+                line-height: 35px; /* this is the hieght of the menu items */
+                color: #ffffff; /* list item font color */
+            }
+
+            #nav li li a {
+                font-size: 80%;
+            }
+            /* smaller font size for sub menu items */
+            #nav li:hover {
+                background: #003f20;
+            }
+        /* highlights current hovered list item and the parent list items when hovering over sub menues */
+        #nav ul {
+            position: absolute;
+            padding: 0;
+            left: 0;
+            display: none; /* hides sublists */
+        }
+
+        #nav li:hover ul ul {
+            display: none;
+        }
+        /* hides sub-sublists */
+        #nav li:hover ul {
+            display: block;
+        }
+        /* shows sublist on hover */
+        #nav li li:hover ul {
+            display: block; /* shows sub-sublist on hover */
+            margin-left: 200px; /* this should be the same width as the parent list item */
+            margin-top: -35px; /* aligns top of sub menu with top of list item */
+        }
+</style>
+@*<div>
+        <ul id="nav">
+            @if (ViewBag.MenuList != null)
+            {
+                foreach (var items in ViewBag.MenuList)
+                {
+                    foreach (var parent in items.ParentID)
+                    {
+                        var k = parent;
+                        <li>
+                            <a href="@items.destination">@items.NodeName </a>
+                            <ul>
+                                <li>
+                                    <a href="@items.destination">@items.NodeName </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                    }
+                }
+            }
+        </ul>
+
+    </div>*@
+
+<div>
+    <ul>
+        @foreach (var item in Model.Where(s => s.ParentID == 0).GroupBy(Obj => new { Obj.NodeID }).Distinct().ToList())
+        {
+            <li>
+                <a href="@item.FirstOrDefault().destination">
+                    @item.FirstOrDefault().NodeName
+                </a>
+                <ul>
+                    @foreach (var firstItem in (Model.Where(s => s.ParentID == item.FirstOrDefault().NodeID).ToList()))
+                    {
+                        <li>
+                            <a href="/@firstItem.destination">
+                                @firstItem.NodeName
+                            </a>
+                            <ul>
+                                @foreach (var secondItem in (Model.Where(s => s.ParentID == firstItem.NodeID).ToList()))
+                                {
+                                    <li>
+                                        <a href="/@secondItem.destination">
+                                            @secondItem.NodeName
+                                        </a>
+                                        <ul>
+                                            @foreach (var ThirdItem in (Model.Where(s => s.ParentID == secondItem.NodeID).ToList()))
+                                            {
+                                            <li>
+                                                <a href="/@ThirdItem.destination">
+                                                    @ThirdItem.NodeName
+                                                </a>
+                                                <ul>
+                                                    @foreach (var FourthItem in (Model.Where(s => s.ParentID == ThirdItem.NodeID).ToList()))
+                                                    {
+                                                        <li>
+                                                            <a href="/@FourthItem.destination">
+                                                                @FourthItem.NodeName
+                                                            </a>
+
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </li>
+                                            }
+                                            </ul>
+
+                                    </li>
+
+                                }
+                            </ul>
+
+                        </li>
+                    }
+                </ul>
+            </li>
+
+        }
+    </ul>
+
+</div>
