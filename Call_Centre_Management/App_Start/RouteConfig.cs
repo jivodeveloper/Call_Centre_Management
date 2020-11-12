@@ -16,7 +16,7 @@ namespace Call_Centre_Management
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Login", action = "Employee_Login", id = UrlParameter.Optional }
             );
         }
     }

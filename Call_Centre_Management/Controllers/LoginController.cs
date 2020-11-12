@@ -6,7 +6,6 @@ using System.Web;
 using System.Web.Mvc;
 using Call_Centre_Management.Classes;
 using Call_Centre_Management.Models;
-using System.Linq;
 
 namespace Call_Centre_Management.Controllers
 {
@@ -22,11 +21,12 @@ namespace Call_Centre_Management.Controllers
             return View();
         }
 
-        public ActionResult Emp_Login()
-        
+        public ActionResult Emp_Login(String UserName, String UserPassword)
         {
             List<MenuMaster> menu_list = new List<MenuMaster>();
             dict.Clear();
+            dict.Add("@UserName", UserName);
+            dict.Add("@Password", UserPassword);
             dict.Add("@mode", "Get_All_Menu");
             DataTable dt = common_Class.return_datatable(dict, "proc_Menu");
             int j = Convert.ToInt32(dt.Rows.Count);
@@ -46,6 +46,12 @@ namespace Call_Centre_Management.Controllers
             }
             ViewBag.MenuList = menu_list;
             return View(menu_list);
+        }
+
+        public ActionResult Employee_Login()
+        { 
+
+        return View();
         }
 
     }
