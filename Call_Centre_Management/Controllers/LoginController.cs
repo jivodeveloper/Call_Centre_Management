@@ -27,8 +27,8 @@ namespace Call_Centre_Management.Controllers
             dict.Clear();
             dict.Add("@UserName", UserName);
             dict.Add("@Password", UserPassword);
-            dict.Add("@mode", "Get_All_Menu");
-            DataTable dt = common_Class.return_datatable(dict, "proc_Menu");
+            dict.Add("@mode", "Emp_login");
+            DataTable dt = common_Class.return_datatable(dict, "proc_employee");
             int j = Convert.ToInt32(dt.Rows.Count);
             if (j > 0)
             {
@@ -39,8 +39,6 @@ namespace Call_Centre_Management.Controllers
                     menu.ParentID=Convert.ToInt32(dt.Rows[i]["parentId"].ToString());
                     menu.NodeName = dt.Rows[i]["nodeName"].ToString();
                     menu.destination = dt.Rows[i]["destination"].ToString();
-                    //menu.Controller = dt.Rows[i]["controller"].ToString();
-                    //menu.Action = dt.Rows[i]["Action"].ToString();
                     menu_list.Add(menu);
                 }
             }
