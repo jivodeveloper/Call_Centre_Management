@@ -1,93 +1,35 @@
 ﻿@model Call_Centre_Management.Models.Employees
 
-@{
-    ViewBag.Title = "Employee_Login";
-    Layout = "~/Views/Shared/Login_Layout.cshtml";
-}
 
 
-<script>
-    $(function () {
-        $('#userName, #password').unbind('focusout');
-    });
 
-
-    function login() {
-
-        var user = $('#userName').val();
-        var pass = $('#password').val();
-        $('#loader').fadeIn();
+    <script type="text/javascript">
+        debugger
+        function login() {
+            //var EmpLoyeeLogins = {}
+            //EmpLoyeeLogins.userName = $('#userName').val();
+            //EmpLoyeeLogins.Password = $('#password').val();
+            $('#loader').fadeIn();
         $.ajax({
             url: '/Login/Emp_Login',
-            data: { UserName: user, UserPassword: pass },
+            method: 'GET',
+            data: { Username: $('#userName1').val(), Password: $('#password1').val()},
             success: function (data) {
+
+          //  alert(data.val);
+                console.log(data.val);
+             window.location = "../Login/Emp_Login";
                 $('#loader').fadeOut();
-                if (data != "window.location = '../'") {
-                    ShowMessage(data, 'error');
-                    $('#password').val('');
-                    $('#userName').focus();
-                }
-            },
-
-
-            error: function () {
-                $('#loader').fadeOut();
-            }
-        });
-    }
-
-
-    function enter(e, evt) {
-        var charCode = (evt.which) ? evt.which : event.keyCode
-
-        if (charCode == 13) {
-            login();
-
+                //if (data != "window.location = 'Login/Emp_Login'") {
+            //    ShowMessage(data, 'error');
+            //    $('#password').val('');
+            //    $('#userName').focus();
+            //}
         }
-    }
-
-
-
-    function ForgetPassword() {
-        $('#email').val('');
-        $("#popupdiv").dialog({
-            title: 'FORGET PASSWORD',
-            width: 600,
-        });
-    }
-
-    function CheckEmailId() {
-
-        $('#loader').fadeIn();
-        var email = $('#email').val();
-        if (email != '') {
-            $.ajax({
-                url: '/login/checkEmailID',
-                data: { email: email },
-                success: function (data) {
-                    if (data == 'Done') {
-                        ShowMessage('Your Password is Sent to your EmailId', 'warning');
-                        $("#popupdiv").dialog('close');
-                        $('#loader').fadeOut();
-                    }
-                    else {
-                        ShowMessage(data, 'error');
-                        $('#loader').fadeOut();
-                    }
-                },
-                error: function () {
-                    $('#loader').fadeOut();
-                }
-            })
-        }
-        else {
-            ShowMessage('Please Enter EmailID!!...', 'error');
-            $('#loader').fadeOut();
-        }
-    }
-
+        })
+    };
 </script>
-@*<h2>Login</h2>*@
+
 <div style="text-align: center;margin-top:5%;">
 
     <div class="login-logo" style="padding:4px;">
@@ -100,25 +42,34 @@
             <h3 class="panel-title" style="align-content:center">LOGIN DETAILS</h3>
         </div>
         <div class="panel-body">
-            @*<form action="/" method="post" onsubmit="Login()">*@
-            <table class="table-condensed">
-                <tr>
-                    <td>USER NAME</td>
-                    <td><input type="text" id="userName" onkeypress="return enter(this.id, event)" class="form-control" autofocus /></td>
-                </tr>
-                <tr>
-                    <td>PASSWORD</td>
-                    <td><input type="password" id="password" onkeypress="return enter(this.id, event)" class="form-control" /></td>
-                </tr>
-                <tr>
+            @*<form action="../Login/Emp_Login" method="post">*@
+                <table class="table-condensed">
+                    <tr>
+                        <td>USER NAME</td>
+                        <td>
+                            <input type="text" id="userName1"  />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>PASSWORD</td>
 
-                    <td align="right"></td>
-                    <td align="right">
-                        <input type="button" value="LOGIN" onclick="login()" class="btn btn-primary" />&nbsp;&nbsp;&nbsp;
-                        <a href="#" onclick="ForgetPassword()">Forget Password ?</a>
-                    </td>
-                </tr>
-            </table>
+                        <td>
+                            <input type="password" id="password1"  />
+                            
+                        </td>
+
+                    </tr>
+                    <tr>
+
+                        <td align="right"></td>
+                        <td align="right">
+                            
+                            <input type="submit" onclick="login()" value="LOGIN" class="btn btn-primary" />&nbsp;&nbsp;&nbsp;
+                            
+                            <a href="#" onclick="ForgetPassword()">Forget Password ?</a>
+                        </td>
+                    </tr>
+                </table>
             @*</form>*@
         </div>
     </div>
@@ -143,4 +94,6 @@
         </table>
     </div>
 </div>
+
+
 

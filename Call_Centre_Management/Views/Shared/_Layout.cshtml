@@ -1,4 +1,5 @@
 ﻿<!DOCTYPE html>
+
 <html>
 <head>
     <meta charset="utf-8">
@@ -70,6 +71,10 @@
     <link href="~/Scripts/datepicker/css/datepicker.min.css" rel="stylesheet" />
     <script src="~/Scripts/datepicker/js/i18n/datepicker.en.js"></script>
 </head>
+
+@{
+    List<Call_Centre_Management.Models.MenuMaster> Model = (List<Call_Centre_Management.Models.MenuMaster>)Session["Permission"];
+}
 <body class="hold-transition skin-blue sidebar-mini">
     <!-- Site wrapper -->
     <div class="wrapper">
@@ -108,7 +113,7 @@
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu topBar">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <span class="hidden-xs">Nitin</span>
+                                <span class="hidden-xs">@Session["user_name"]</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- Menu Footer-->
@@ -117,8 +122,7 @@
                                         <label>Login</label>
                                     </div>
                                     <div class="pull-right">
-                                        @*@Html.ActionLink("Log Out", "LOGOUT", "Login")*@
-                                        <label>Logout</label>
+                                        @Html.ActionLink("Log Out", "logout", "Login")
                                     </div>
                                 </li>
                             </ul>
@@ -137,7 +141,7 @@
                         </button>
                     </span>
                 </div>
-               
+
                 <ul class="sidebar-menu" data-widget="tree">
                     <li>
                         <a href="/">
@@ -147,299 +151,7 @@
                         </a>
                     </li>
                     <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-dashboard"></i> <span>Masters</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            @*@if (Session["role"].ToString() == "1" && list.Find(e => (e.pageId) == 4).read)
-                                {*@
-                            <li><a href="/login/index"><i class="fa fa-circle-o"></i>App Users</a></li>
-                            @*}*@
-                            <li><a href="/Retailer/index"><i class="fa fa-circle-o"></i>Retailers</a></li>
-                            <li style="display:flex;list-style:none;">
-                                <a href="/Retailer/HedgeLocationTemp"><i class="fa fa-circle-o"></i>Retailer Location</a>
-                                @*<div class="col-lg-12 pull-right img-responsive" style="height:27px;">
-                                        <img src="~/Img/newblink.gif" style="margin-top:2px;height:inherit;float:right; margin-top:2px;" onclick="window.location.href = '../Retailer/SortRetailer'" />
-                                    </div>*@
-                            </li>
-                            <li><a href="/Item/"><i class="fa fa-circle-o"></i>Items</a></li>
-                            <li>
-                                <a href="/SalesPerson/Index"><i class="fa fa-circle-o"></i>Sales Person</a>
-                                @* @Html.ActionLink("Sales  Person", "Index", "SalesPerson")*@
-                            </li>
-                            @*@if (Convert.ToString(Session["role"]) == "1")
-                                {*@
 
-                            <li>
-                                <a href="/Item/ItemType"><i class="fa fa-circle-o"></i>Item Type</a>
-                                @*@Html.ActionLink("Item Type", "ItemType", "Item")*@
-                            </li>
-                            <li>
-                                <a href="/Item/UOM"><i class="fa fa-circle-o"></i>UOM</a>
-                                @*@Html.ActionLink("UOM", "UOM", "Item")*@
-                            </li>
-                            <li>
-                                <a href="/UpdateLocation/Index"><i class="fa fa-circle-o"></i>Locations</a>
-                                @*@Html.ActionLink("Locations", "Index", "UpdateLocation")*@
-                            </li>
-                            <li>
-                                <a href="/Retailer/PromoterShop"><i class="fa fa-circle-o"></i>Promoters Shop Map</a>
-                                @*@Html.ActionLink("Promoters Shop Map", "PromoterShop", "Retailer")*@
-                            </li>
-                            <li>
-                                <a href="/Retailer/SoPromoterMap"><i class="fa fa-circle-o"></i>So Promoter Map</a>
-                                @*@Html.ActionLink("So Promoter Map", "SoPromoterMap", "Retailer")*@
-                            </li>
-                            @*if (list.Find(e => (e.pageId) == 1).read)
-                                {*@
-                            <li>
-                                <a href="/Permission/AddPage"><i class="fa fa-circle-o"></i>Add Page</a>
-                                @*@Html.ActionLink("Add Page", "AddPage", "Permission")*@
-                            </li>
-                            @*}
-                                if (list.Find(e => (e.pageId) == 2).read)
-                                {*@
-                            <li>
-                                <a href="/Permission/Permission"><i class="fa fa-circle-o"></i>Permissions</a>
-                                @*@Html.ActionLink("Permissions", "Permission", "Permission")*@
-                            </li>
-                            @*}*@
-                            <li>
-                                <a href="/LocationPermission/Index"><i class="fa fa-circle-o"></i>Request Locations</a>
-                                @*@Html.ActionLink("Request Locations", "Index", "LocationPermission")*@
-                            </li>
-                            <li>
-                                <a href="/Resources/Index"><i class="fa fa-circle-o"></i>Resources</a>
-                                @*@Html.ActionLink("Request Locations", "Index", "LocationPermission")*@
-                            </li>
-                            <li>
-                                <a href="/Retailer/getAssignedShopsDetail"><i class="fa fa-circle-o"></i>Assigned Shops</a>
-                                @*@Html.ActionLink("Request Locations", "Index", "LocationPermission")*@
-                            </li>
-                            @*}*@
-                        </ul>
-                    </li>
-                    <li>
-                        @*@if (Convert.ToString(Session["role"]) != "3")
-                            {*@
-                        <a href="/Sales/Create2" id="entry" title="CTRL + ALT + E">
-                            <i class="fa fa-calendar"></i> <span>Sales <strong><u>E</u></strong>ntry</span>
-                        </a>
-                        @*}*@
-                    </li>
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-laptop"></i>
-                            <span>Beats</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li>@*@Html.ActionLink("Create", "../Beats/Create", routeValues: null, htmlAttributes: new { id = "beatCreate" })*@Create</li>
-                            <li>@*@Html.ActionLink("Create by Excel", "../beats/createBeatPage", routeValues: null, htmlAttributes: new { id = "beatCreateExcel", title = "CTRL + ALT + Q" })*@ Create By Excel</li>
-                            <li>@*@Html.ActionLink("View", "../Beats/Index", routeValues: null, htmlAttributes: new { id = "beatView" })*@ View</li>
-                            <li>@*@Html.ActionLink("Assign", "../Beats/GetBeatsAssign", routeValues: null, htmlAttributes: new { id = "beatAssign", title = "CTRL + ALT + B" })*@ Assign</li>
-                        </ul>
-                    </li>
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-pie-chart"></i>
-                            <span>Reports</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li class="treeview">
-                                <a href="#">
-                                    <i class="fa fa-circle-o"></i> SO Reports
-                                    <span class="pull-right-container">
-                                        <i class="fa fa-angle-left pull-right"></i>
-                                    </span>
-                                </a>
-                                <ul class="treeview-menu">
-                                    <li>@*@Html.ActionLink("DailyReport", "ReportByRetailer", "SalesReport", new { fromDate = new DateTime(1990, 01, 01), toDate = new DateTime(1990, 01, 01), state = new int[] { -1 }, zone = 0 }, new { })*@ Daily Report</li>
-                                    <li><a href="~/SalesReport/DailyReportMT">Daily Report MT</a></li>
-
-                                    <li>@*@Html.ActionLink("Reports", "ReportByRetailer", "SalesReport", new { fromDate = new DateTime(1990, 01, 01), toDate = new DateTime(1990, 01, 01), state = -1, zone = 0, data = "data" }, new { })*@ Report</li>
-                                    <li>@*@Html.ActionLink("Individual Person Report", "GetPersonReport", "SalesReport", new { id = -1 }, new { })*@ Individual Person Report</li>
-                                    <li><a href="~/salesorderreport/WeeklyTargetVsSaleReport">Weekly Target Vs Sale</a></li>
-                                    <li><a href="~/salesorderreport/asmmonthlyreport">ASM Monthly Report</a></li>
-                                    <li><a href="~/salesorderreport/monthlyComparisonReport">Monthly Comparison Report</a></li>
-                                    <li>@*@Html.ActionLink("SO Report By State", "GetReportsByPerson", "SalesReport", new { fromDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1), toDate = DateTime.Today, state = -1, zone = 0, procedure = "GetReportsByPerson" }, new { })*@GetReportsByPerson</li>
-                                    <li>@*<a href="~/SalesReport/GetReportsByPersonModified">SO Report By State Modified</a>*@</li>
-                                    <li>
-                                        @*<a href="~/SalesReport/GetReportsByPersonTesting">
-                                                    SO Report By State Testing
-                                                </a>
-                                            </li>*@
-                                    <li><a href="~/SalesReport/SingleRetailerReportII">Report By Retailer-II</a></li>
-                                    <li><a href="~/SalesReport/DailyPersonSalesReport">Daily Person Report</a></li>
-                                    <li><a href="~/SalesReport/DailyPersonAttendance">Daily Person Attendence</a></li>
-                                    <li><a href="~/SalesReport/GetPersonAttendance">Individual Attendence</a></li>
-                                    @*<li><a href="~/SalesReport/BeatWiseReportByDate">Daily  State Beat Report</a></li>
-                                        <li><a href="~/SalesReport/lastmonthdrop">Last Month Drop</a></li>
-                                        <li><a href="~/SalesReport/MonthlyCumulativeReport">Monthly Cumulative Report</a></li>*@
-                                    <li><a href="~/SalesReport/SaleOverView">Sale Overview Report</a></li>
-                                    <li><a href="~/SalesReport/MonthWiseSaleReport">Monthly Sale Overview</a></li>
-                                    @*<li><a href="~/SalesReport/ParentRecord">Parent Record</a></li>
-                                        <li><a href="~/SalesReport/PersonSalesProductivity">Person Sale Productivity</a></li>*@
-                                    <li><a href="~/SalesReport/RetailerMonthlySale">Retailer Monthly Sale</a></li>
-                                    @*<li><a href="~/SalesReport/PersonItemReport">Person Item Detail</a></li>*@
-                                    <li><a href="~/SalesReport/RetailerStockDetails">Retailer Stock </a></li>
-                                    @*<li><a href="~/Productivity/Index">Productivity Report</a></li>
-                                        <li><a href="~/Productivity/monthWiseDailyReport">Month Wise Daily Report</a></li>
-                                        <li><a href="~/Productivity/stateWiseDailyReport">State Wise Daily Report</a></li>*@
-                                    @*<li><a href="~/Productivity/CustomersNearRetailers">Customers Near Retailers</a></li>
-                                        <li><a href="~/SalesReport/SalesPersonWiseRetailervisit">SO Wise Retailer Visit</a></li>
-                                        <li><a href="~/SalesReport/TAReport">TA Report</a></li>*@
-                                    <li>
-                                        <a href="~/SalesReport/TAReportNew">
-                                            TA Report New
-                                        </a>
-                                    </li>
-                                    <li><a href="~/GeoLocation/LocationReportCurrent">Current Location</a></li>
-                                    @*<li><a href="~/GeoLocation/LocationReportWithAttendance">Date-Wise Location</a></li>
-                                        <li><a href="~/SalesReport/RetailerDailySale">Date-Wise Reatailer Sale</a></li>
-                                        <li><a href="~/SalesReport/RetailerWIseSale">Retailer-Wise Sale</a></li>*@
-                                    <li><a href="~/SalesReport/PersonWorkingHours">Person Working Hours</a></li>
-                                    <li>
-                                        <a href="~/SalesReport/PersonWorkingHoursV2">
-                                            Person Working Hours V2
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="~/SalesReport/RetailerReport">
-                                            Retailers Report
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="~/Promoters/">
-                                            Sales Person Dashboard
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="treeview">
-                                <a href="#">
-                                    <i class="fa fa-circle-o"></i> Promoter Reports
-                                    <span class="pull-right-container">
-                                        <i class="fa fa-angle-left pull-right"></i>
-                                    </span>
-                                </a>
-                                <ul class="treeview-menu">
-                                    <li>@*@Html.ActionLink("Reports", "GetReportByRetailer", "ThirdSaleReport", new { fromDate = DateTime.Today, toDate = DateTime.Today, state = -1, zone = 0 }, new { })*@GetReportByRetailer</li>
-                                    <li>@*@Html.ActionLink("Person Report", "GetPersonReport", "ThirdSaleReport", new { id = -1 }, new { })*@Person Report</li>
-                                    <li><a href="~/ThirdSaleReport/DailyPersonSalesReport">Daily Person Report</a></li>
-                                    <li><a href="~/SalesReport/PromoterSaleWithSoSale">Promoter Sale VS SO Sale</a></li>
-                                    <li><a href="~/SalesReport/PromoterROI">Promoter ROI</a></li>
-                                    <li><a href="~/ThirdSaleReport/PromoterSaleOverView">Promoter Sale Overview</a></li>
-                                    <li>@*@Html.ActionLink("Promoter Report By State", "GetPromoterReportByState", "ThirdSaleReport", new { fromDate = new DateTime(1990, 01, 01), toDate = new DateTime(1990, 01, 01), state = -1, zone = 0, procedure = "GetPromoterReport" }, new { })*@Promoter Report By State</li>
-                                    <li><a href="~/ThirdSaleReport/Selfie">Selfie</a></li>
-                                    <li>
-                                        <a href="~/ThirdSaleReport/NewPromoters">
-                                            New Promoters
-                                            @*<img src="~/Img/newblink.gif" style="height:7%;width:7%;margin-top:2px;" onclick="window.location.href = '../SalesReport/TAReportNew'" />*@
-                                        </a>
-                                    </li>
-                                    <li><a href="~/ThirdSaleReport/promoterWorkingHours">Person Working Hours</a></li>
-                                </ul>
-                            </li>
-                            <li class="treeview">
-                                <a href="#">
-                                    <i class="fa fa-circle-o"></i> Location Reports
-                                    <span class="pull-right-container">
-                                        <i class="fa fa-angle-left pull-right"></i>
-                                    </span>
-                                </a>
-                                <ul class="treeview-menu">
-                                    <li>@*@Html.ActionLink("Sale & Location", "../geoLocation/Index")*@Sale & Location</li>
-                                    <li>@*@Html.ActionLink("Unapproved Sales", "../geoLocation/unapprovedSales")*@Unapproved Sales</li>
-                                    <li @*style="display:flex;list-style:none;">
-                                            @Html.ActionLink("Sale & Location New", "../geoLocation/saleandlocation")
-                                        </li>*@
-                                    <li>@*@Html.ActionLink("Person Location", "../geoLocation/LocationReport")*@Person Location</li>
-                                    <li>@*@Html.ActionLink("Shop Map Location", "../salesReport/RetailerWithLocation")*@Shop Map Location</li>
-                                </ul>
-                            </li>
-
-                            <li class="treeview">
-                                <a href="#">
-                                    <i class="fa fa-circle-o"></i> Beat Reports
-                                    <span class="pull-right-container">
-                                        <i class="fa fa-angle-left pull-right"></i>
-                                    </span>
-                                </a>
-                                <ul class="treeview-menu">
-                                    <li>@*@Html.ActionLink("Daily Beat Report", "../beatreport/Index")*@Daily Beat Report</li>
-                                    <li>@*@Html.ActionLink("Individual Beat Report", "../beatReport/individualBeat")*@Individual Beat Report</li>
-                                </ul>
-                            </li>
-
-                            @*<li><a href="~/Salary"><i class="fa fa-circle-o"></i>Salary</a></li>*@
-                            <li> <a href="~/GeoLocation/ManagerUsageReport"><i class="fa fa-circle-o"></i>Manager Usage</a></li>
-                            @*@if (Convert.ToString(Session["role"]) == "1")
-                                {*@
-                            <li><a href="~/salesReport/manualEmail"><i class="fa fa-circle-o"></i>Manual E-Mails</a></li>
-                            <li><a href="~/salesReport/BackendPersonPerformance"><i class="fa fa-circle-o"></i>Backend Performance</a></li>
-                            @*}*@
-                        </ul>
-                    </li>
-
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-edit"></i> <span>Dist/Super</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li style="display:flex;list-style:none;">
-                                @*@Html.ActionLink("Assign Distributors", "../Distributor/AssignDistributor", null, new { id = "reports" })*@Assign Distributors
-                            </li>
-                            <li>@*@Html.ActionLink("Assign Shops", "../Distributor/Create", null, new { id = "reports" })*@Assign Shops</li>
-                            <li>@*@Html.ActionLink("Primary and Stock Entry", "../Distributor/CreateDistributorStock")*@Primary and Stock Entry</li>
-                            <li>@*@Html.ActionLink("Dist/Super Stock", "../Distributor")*@</li>
-                            <li style="display:flex;list-style:none;">
-                                @*@Html.ActionLink("Stock v/s Primary", "../Distributor/Primary")*@Stock v/s Primary
-                            </li>
-                            <li>@*@Html.ActionLink("Orders Dispatch Details", "../Distributor/DistributorOrder")*@</li>
-                            <li>@*@Html.ActionLink("Overview Orders", "../Distributor/DistributorOrderByDate")*@</li>
-                            <li>@*@Html.ActionLink("Item Price Excel Uploader", "../Retailer/ExcelUploadForRetailerItemPrice")*@Item Price Excel Uploader</li>
-                            <li style="display:flex;list-style:none;">
-                                @*@Html.ActionLink("Super Order Status", "../Distributor/DistSuper")*@Super Order Status
-                            </li>
-                            <li style="display:flex;list-style:none;">
-                                @*@Html.ActionLink("Distributor Stock Report", "../Distributor/StockReport")*@Distributor Stock Report
-                                @*<img src="~/Img/newblink.gif" style="height:7%;width:7%; margin-top:5px;float:right" onclick="window.location.href = '../Distributor/StockReport'" />*@
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-edit"></i> <span>Retailers App</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li style="display:flex;list-style:none;">
-
-                                @*@Html.ActionLink("Offers Availed", "../offers/offersAvailed")*@Offers Availed
-                            </li>
-                            <li style="display:flex;list-style:none;">
-                                @*@Html.ActionLink("Orders", "../orders/")*@Orders
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="treeview">
-                       
                         <a href="#">
                             <i class="fa fa-share"></i> <span>Multilevel</span>
                             <span class="pull-right-container">
@@ -469,7 +181,7 @@
                                             <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
                                             <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
                                             <li><a href="~/Login/Emp_Login">Login</a></li>
-                                            
+
                                         </ul>
                                     </li>
                                 </ul>
@@ -477,6 +189,74 @@
                             <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
                         </ul>
                     </li>
+                </ul>
+                <ul class="sidebar-menu" data-widget="tree">
+                    @if (Model != null)
+                    {
+                        foreach (var item in Model.Where(s => s.ParentID == 0).GroupBy(Obj => new { Obj.NodeID }).Distinct().ToList())
+                        {
+                            <li class="treeview">
+                                <a href="@item.FirstOrDefault().destination">
+                                    <i class="fa fa-share"></i> <span> @item.FirstOrDefault().NodeName</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    @foreach (var firstItem in (Model.Where(s => s.ParentID == item.FirstOrDefault().NodeID).ToList()))
+                                    {
+                                        <li class="treeview">
+                                            <a href="@firstItem.destination">
+                                                <i class="fa fa-circle-o"></i> <span> @firstItem.NodeName</span>
+                                                <span class="pull-right-container">
+                                                    <i class="fa fa-angle-left pull-right"></i>
+                                                </span>
+                                            </a>
+                                            <ul  class="treeview-menu">
+                                                @foreach (var secondItem in (Model.Where(s => s.ParentID == firstItem.NodeID).ToList()))
+                                                {
+                                                    <li>
+                                                        <a href="@secondItem.destination">
+                                                            <i class="fa fa-circle-o"></i> <span> @secondItem.NodeName</span>
+                                                            @*<span class="pull-right-container">
+                                                                <i class="fa fa-angle-left pull-right"></i>
+                                                            </span>*@
+                                                        </a>
+                                                        <ul>
+                                                            @foreach (var ThirdItem in (Model.Where(s => s.ParentID == secondItem.NodeID).ToList()))
+                                                            {
+                                                                <li>
+                                                                    <a href="@ThirdItem.destination">
+                                                                        @ThirdItem.NodeName
+                                                                    </a>
+                                                                    <ul>
+                                                                        @foreach (var FourthItem in (Model.Where(s => s.ParentID == ThirdItem.NodeID).ToList()))
+                                                                        {
+                                                                            <li>
+                                                                                <a href="@FourthItem.destination">
+                                                                                    @FourthItem.NodeName
+                                                                                </a>
+
+                                                                            </li>
+                                                                        }
+                                                                    </ul>
+                                                                </li>
+                                                            }
+                                                        </ul>
+
+                                                    </li>
+
+                                                }
+                                            </ul>
+
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+
+                        }
+                    }
+
                 </ul>
             </section>
             <!-- /.sidebar -->
@@ -518,6 +298,6 @@
             reserved.
         </footer>
     </div>
-    
+
 </body>
 </html>
