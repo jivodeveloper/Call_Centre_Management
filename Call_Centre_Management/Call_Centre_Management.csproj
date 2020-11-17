@@ -123,6 +123,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Classes\Common_Class.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Global.asax.cs">
@@ -7716,6 +7717,7 @@
     <Folder Include="bower_components\inputmask\dist\min\inputmask\global\" />
     <Folder Include="bower_components\inputmask\dist\min\inputmask\phone-codes\" />
     <Folder Include="bower_components\select2\docs\dist\" />
+    <Folder Include="Views\Employee\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
