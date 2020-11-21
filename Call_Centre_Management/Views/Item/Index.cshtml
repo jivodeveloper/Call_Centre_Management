@@ -1,0 +1,140 @@
+﻿
+@{
+    
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<script type="text/javascript">
+
+    function RoleSubmit() {
+        var Values = {};
+        Values.RoleName = $('#AddRole').val();
+        console.log(Values.RoleName.length)
+
+        if (Values.RoleName.length != 0) {
+            $('#msg').val('');
+            $.ajax({
+                url: "/Login/InsertRole",
+                method: "POSt",
+                data: { model: Values },
+                success: function (Result) {
+                    if (Result == "True") {
+                        alert("Record Sucessfully Saved.");
+                        //$('#msg').html("<div class='alert alert-success alert-dismissible'><a href = '#' class= 'close' data - dismiss='alert' aria - label='close' ></a><strong>Success!</strong> Record Sucessfully Saved.</div>");
+                        //$('#msg').fadeOut(5000);
+                        //$('#msg').fadeOut("Slow");
+                        $('#AddRole').val('');
+                    }
+                    else {
+                        alert("Record Is Already Exists Please Try Again.");
+                        //$('#msg').html("<div class='alert alert-danger alert-dismissible'><a href = '#' class= 'close' data - dismiss='alert' aria - label='close' ></a><strong>Sorry!</strong> Record Is Already Exists Please Try Again.</div>");
+                        //$('#msg').fadeOut(5000);
+                        //$('#msg').fadeOut("Slow");
+                    }
+
+                }
+            });
+        }
+        else {
+            $('#msg').html("<span style='color: red'>Please Enter Role Name.</span>");
+        }
+    }
+
+    function Delete_Item(id) {
+        //debugger;
+        console.log(id);
+        var x = confirm("Are you sure you want to Delete?");
+        if (x) {
+            $.ajax({
+                url: "/Item/Delete_Item",
+                method: "Post",
+                data: { id: id },
+                success: function (data) {
+                    alert("Successfully Deleted");
+                    //ShowMessage("Successfully Deleted", 'warning');
+                    location.reload();
+
+                }
+            })
+        }
+
+        //$('#reactivebtn').hide();
+
+    }
+</script>
+
+<div class="panel panel-info" style="float:left; width:100%" id="maindiv">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <table>
+                <tr>
+                    <td>
+                        Items  &nbsp; &nbsp; <input id="deleted" name="deleted" type="checkbox" onclick="checking(this);"> DE-ACTIVATED
+                    </td>
+                    <td style="padding-left:780px;">
+                        <a href="~/Item/Insert_Item">  <input type="button" value="Add New" class="btn btn-info" /></a>
+                    </td>
+                </tr>
+            </table>
+        </h3>
+    </div>
+</div>
+
+<div class="form-horizontal">
+    <div>
+        <table id="EmployeeTableList" class="table table-striped table-hover">
+            <thead>
+                <tr class="info" style="cursor:pointer;">
+                    <th>Item Name </th>
+                    <th>Category</th>
+                    <th>Sub Category</th>
+                    <th>UOM</th>
+                    <th>UOM Value</th>
+                    <th>Rate</th>
+                    <th>Scxheme Value</th>
+                    <th>Scheme Quantity</th>
+                    <th>GST</th>
+                    <!--<th>Security</th>--> @*here*@
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var GetData in ViewBag.get_item)
+                {
+
+                <tr>
+                    <td>@GetData.item_name  </td>
+                    <td>@GetData.category </td>
+                    <td>@GetData.sub_category </td>
+                    <td>@GetData.UOM </td>
+                    <td>@GetData.UOM_value  </td>
+                    <td>@GetData.rate </td>
+                    <td>@GetData.Scheme_values </td>
+                    <td>@GetData.scheme_qty </td>
+                    <td>@GetData.gst </td>
+                    <td>
+                        <a value='Edit' class='btn btn-sm btn-info' href='Edit_Item/@GetData.id'>Edit</a>
+                        
+                        @*<a value='Deactive' id="Deactive" class='btn btn-sm btn-info' href='Delete_Item/@GetData.id' >Delete</a>*@
+                        
+                        <input type='button' value='Deactive' id="Deactive" class='btn btn-sm btn-info' onclick="Delete_Item('@GetData.id')" />
+                    </td>
+                </tr>
+                }
+
+            </tbody>
+
+        </table>
+    </div>
+
+
+</div>
+
+@*<p>
+        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>*@
+
+

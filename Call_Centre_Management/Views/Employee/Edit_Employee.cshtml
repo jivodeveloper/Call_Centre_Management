@@ -1,0 +1,237 @@
+﻿@model Call_Centre_Management.Models.Employees_Modal
+@{
+    ViewBag.Title = "Update Employee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Update Employee</h2>
+
+
+<script type="text/javascript">
+    function EmployeeSubmit(id) {
+        var Values = {};
+        Values.id = id;
+        Values.fullName = $('#txt_fname').val();
+        Values.gender = $('#dd_gender').val();
+        Values.dob = $('#txt_dob').val();
+        Values.mobile = $('#txt_mobile').val();
+        Values.role = $('#dd_role').val();
+        Values.email = $('#txt_email').val();
+        Values.address = $('#txt_address').val();
+        Values.area = $('#txt_area').val(); 
+        Values.state = $('#dd_state').val();
+        Values.Security = $('#txt_security').val();
+        Values.userName = $('#txt_userName').val();
+        Values.password = $('#txt_password').val();
+
+        if (Values.userName.length != 0) {
+            $('#msg').val('');
+            $.ajax({
+                url: "/Employee/Edit_Employee",
+                method: "Post",
+                data: { emp: Values },
+                success: function (Result) {
+                    if (Result == '1') {
+                        //$('#msg').html("<div class='alert alert-success alert-dismissible'><a href = '#' class= 'close' data - dismiss='alert' aria - label='close' ></a><strong>Success!</strong> Record Sucessfully Saved.</div>");
+                        //$('#msg').fadeOut(5000);
+                        //$('#msg').fadeOut("Slow");
+                        alert("Employee Registered Successfully !!.");
+                        location.reload();
+                    }
+                    else if (Result == '-1') {
+                        alert("User Name Is Already Exists Please Try Again.");
+                        //$('#msg').html("<div class='alert alert-danger alert-dismissible'><a href = '#' class= 'close' data - dismiss='alert' aria - label='close' ></a><strong>Sorry!</strong> Record Is Already Exists Please Try Again.</div>");
+                        //$('#msg').fadeOut(5000);
+                        //$('#msg').fadeOut("Slow");
+                    }
+                    else {
+                        alert("Oops....Something Gone Wrong ! Please Try Again");
+                    }
+                }
+            });
+        }
+        else {
+            //   $('#msg').html("<span style='background-color:red;color:white'>Please Enter User Name.</span>");
+            alert("Please Enter User Name.");
+        }
+    }
+
+    function checkUserName() {
+        if ($('#txt_userName').val().length != 0) {
+            $('#msg').val('');
+            $.ajax({
+                url: "/Employee/checkuserName",
+                method: "Post",
+                data: { username: $('#txt_userName').val() },
+                success: function (Result) {
+                    if (Result == true) {
+                        // $('#lbl_userMSG').val('User Name Alredy Exists');
+                        //   alert("User Name Alredy Exists");
+                        $("#txt_userName").val('');
+                        $("#lbl_userMSG").html("<span style='color:red'>Allready Exists</span>");
+                    }
+                    else {
+                        //   $('#lbl_userMSG').val('User Name Available');
+                        $("#lbl_userMSG").html("<span style='color:Green'>User Name Available</span>");
+                    }
+                }
+            })
+        }
+    }
+
+</script>
+
+<script type="text/javascript"></script>
+<div class="form-horizontal">
+    <hr />
+    <span id="msg"></span>
+
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            <label>Full Name</label>
+        </div>
+        <div class="col-md-3">
+            <input type="text" id="txt_fname" value="@ViewBag.Employee.fullName" placeholder="Enter your Name" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            <label>
+                Gender
+            </label>
+        </div>
+        <div class="col-md-3">
+            <select id="dd_gender" class="form-control">
+                <option value='0'>--- Select Gender ---</option>
+                <option value='Male'>Male</option>
+                <option value='Female'>Female</option>
+                <option value='Other'>Other</option>
+            </select>
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            <label> DOB</label>
+        </div>
+
+        <div class="col-md-3">
+            <input type="date" value="@ViewBag.Employee.dob" id="txt_dob" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            <label> Mobile No.</label>
+        </div>
+
+        <div class="col-md-3">
+            <input type="text" id="txt_mobile" value="@ViewBag.Employee.mobile" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            <label>Email ID </label>
+        </div>
+
+        <div class="col-md-3">
+            <input type="text" id="txt_email" value="@ViewBag.Employee.email" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            <label> Role </label>
+        </div>
+        <div class="col-md-3">
+            <select id="dd_role" class="form-control">
+                <option value='0'>--Select Role--</option>
+                @{
+                    foreach (var role in ViewBag.getrole)
+                    {
+                        <option value="@role.Id">@role.role</option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            <label>Security</label>
+        </div>
+
+        <div class="col-md-3">
+            <input type="text" id="txt_security" value="@ViewBag.Employee.Security" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            <label>Area </label>
+        </div>
+
+        <div class="col-md-3">
+            <input type="text" id="txt_area" value="@ViewBag.Employee.area" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            <label> State</label>
+        </div>
+        <div class="col-md-3">
+            <select name="cars" id="dd_state" class="form-control">
+                <option value='0'>--- Select State ---</option>
+
+                @{
+                    foreach (var state in ViewBag.getstate)
+                    {
+
+                        <option value="@state.Id">@state.State</option>
+                    }
+
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            <label>Address</label>
+        </div>
+
+        <div class="col-md-3">
+            <input type="text" id="txt_address" value="@ViewBag.Employee.address" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            <label>User Name</label>
+        </div>
+
+        <div class="col-md-3">
+            <input type="text" id="txt_userName" value="@ViewBag.Employee.userName" onchange="checkUserName()" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <label id="lbl_userMSG"></label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            <label>Password</label>
+        </div>
+
+        <div class="col-md-3">
+            <input type="password" id="txt_password" value="@ViewBag.Employee.password" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-3">
+            <input type="submit" value="Update" onclick="EmployeeSubmit(@ViewBag.Employee.id)" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
+<div>
+    <a href="~/Employee/Index">  <input type="button" value="Back" class="btn btn-info" /></a>
+</div>

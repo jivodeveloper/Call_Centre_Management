@@ -1,0 +1,611 @@
+﻿
+@{
+    //ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script type="text/javascript">
+
+    //Add by lucky
+    $(document).ready(function () {
+        //State Buttons and msg tag
+        $("#EditState").hide();
+        $("#StateSubmit").show();
+        $("#msgState").show();
+        //End
+
+        $("#EditZone").hide();
+        $("#SumitZone").show();
+        $("#msgZone").show();
+
+    });
+    //End
+
+    function RoleSubmit() {
+        var Values = {};
+        Values.RoleName = $('#AddRole').val();
+        console.log(Values.RoleName.length)
+
+        if (Values.RoleName.length != 0) {
+            $('#msg').val('');
+            $.ajax({
+                url: "/Login/InsertRole",
+                method: "POSt",
+                data: { model: Values },
+                success: function (Result) {
+                    if (Result == "True") {
+                        alert("Record Sucessfully Saved.");
+                        //$('#msg').html("<div class='alert alert-success alert-dismissible'><a href = '#' class= 'close' data - dismiss='alert' aria - label='close' ></a><strong>Success!</strong> Record Sucessfully Saved.</div>");
+                        //$('#msg').fadeOut(5000);
+                        //$('#msg').fadeOut("Slow");
+                        $('#AddRole').val('');
+                    }
+                    else {
+                        alert("Record Is Already Exists Please Try Again.");
+                        //$('#msg').html("<div class='alert alert-danger alert-dismissible'><a href = '#' class= 'close' data - dismiss='alert' aria - label='close' ></a><strong>Sorry!</strong> Record Is Already Exists Please Try Again.</div>");
+                        //$('#msg').fadeOut(5000);
+                        //$('#msg').fadeOut("Slow");
+                    }
+
+                }
+            });
+        }
+        else {
+            $('#msg').html("<span style='color: red'>Please Enter Role Name.</span>");
+        }
+    }
+
+    function Delete(id) {
+        //debugger;
+        console.log(id);
+        var x = confirm("Are you sure you want to Delete?");
+        if (x) {
+            $.ajax({
+                url: "/Area/delete_area",
+                method: "Post",
+                data: { id: id },
+                success: function (data) {
+                    alert("Successfully Deleted");
+                    //ShowMessage("Successfully Deleted", 'warning');
+                    location.reload();
+
+                }
+            })
+        }
+
+        //$('#reactivebtn').hide();
+
+    }
+
+    //Add By Lucky
+
+    //Add State Functionality
+    function StateSubmit() {
+        var EditStateValues = {};
+        EditStateValues.StateName = $('#Txtstate').val();
+        if (EditStateValues.StateName.length > 0) {
+            $.ajax({
+                url: "/Area/InsertState",
+                method: "Post",
+                data: { model: EditStateValues },
+                success: function (Result) {
+                    if (Result == "True") {
+                        alert("Record Sucessfully Saved.");
+                        location.reload();
+                        $('#Txtstate').val('');
+                    }
+                    else {
+                        alert("Record Is Already Exists Please Try Again.");
+                        $('#Txtstate').val('');
+                        $('#msgState').hide();
+                    }
+                }
+            });
+        }
+        else {
+            $('#msgState').html("<span style='color: red'>Please Enter State Name.</span>");
+        }
+    };
+    function StateUpdate(SId, Statename) {
+        $('#msgState').hide();
+        $("#EditState").show();
+        $("#SumitState").hide();
+        $('#Txtstate').val(Statename);
+        $('#EditStateId').val(SId);
+
+        $("#EditState").click(function () {
+            var EditStateValues = {};
+            EditStateValues.StateName = $('#Txtstate').val();
+            EditStateValues.Id = $('#EditStateId').val();
+            if (EditStateValues.Id > 0 && EditStateValues.StateName.length > 0) {
+                $.ajax({
+                    url: "/Area/UpdateState",
+                    method: "Post",
+                    data: { model: EditStateValues },
+                    success: function (Result) {
+                        if (Result == true) {
+                            alert("Record Sucessfully Updated.");
+                            location.reload();
+                            $('#Txtstate').val('');
+                            $("#EditState").hide();
+                            $("#SumitState").show();
+                            $('#msgState').hide();
+                        }
+                        else if (Result == false) {
+                            $('#msgState').hide();
+                            alert("Please Try Again");
+                        }
+                        //else if (Result == 1) {
+                        //    $('#msgState').hide();
+                        //    alert("Role Is Activated");
+                        //}
+                        //else if (Result == 2) {
+                        //    $('#msgState').hide();
+                        //    alert("Role Is DisActivated");
+                        //}
+                        else if (Result == 3) {
+                            location.reload();
+                        }
+                    }
+                });
+            }
+            else {
+                $('#msgState').show();
+                $('#msgState').html("<span style='color: red'>Please Enter State Name.</span>");
+            }
+
+        });
+    }
+    function StateActive_Deactive(Id) {
+        var StateActiveValues = {};
+        StateActiveValues.Id = Id;
+
+        if (StateActiveValues.Id > 0) {
+            var alertmsg = confirm("Are you Sure You Want change Mode");
+            if (alertmsg == true) {
+                $.ajax({
+                    url: "/Area/UpdateState",
+                    method: "Post",
+                    data: { model: StateActiveValues },
+                    success: function (Result) {
+                        if (Result == 1) {
+                            alert("State Is Activated");
+                            location.reload();
+                        }
+                        else if (Result == 2) {
+                            alert("State Is DisActivated");
+                            location.reload();
+                        }
+                        else if (Result == 3) {
+                            location.reload();
+                        }
+                    }
+                });
+            }
+        }
+        else {
+            $('#msgState').hide();
+            alert("Please Try Again");
+        }
+    }
+    //End
+
+    //Add Zone Functionality
+    function ZoneSubmit() {
+        var ZoneValue = {};
+        ZoneValue.StateId = $("#ZoneSelect").val();
+        ZoneValue.ZoneName = $("#TxtZone").val();
+
+        if (ZoneValue.StateId == 0) { $('#msgZone').html("<span style='color: red'>Please Select State.</span>"); }
+        else if (ZoneValue.ZoneName.length == 0) { $('#msgZone').html("<span style='color: red'>Please Enter Zone Name.</span>"); }
+        else if (ZoneValue.StateId > 0 && ZoneValue.ZoneName.length > 0) {
+            $.ajax
+                ({
+                    url: "/Area/InsertZoneDetails",
+                    method: "post",
+                    data: { modal: ZoneValue },
+                    success: function (Result) {
+                        if (Result == true) {
+                            alert("Record Sucessfully Saved");
+                            location.reload();
+                        }
+                        else {
+                            alert("oops Something Wrong Please Try Again");
+                        }
+                    }
+                });
+        }
+    }
+    function ZoneUpdate(Id, StateId, ZoneName) {
+        $("#EditZone").show();
+        $("#SumitZone").hide();
+
+        $("#EditZoneId").val(Id);
+        $("#ZoneSelect").val(StateId);
+        $("#TxtZone").val(ZoneName);
+
+        $("#EditZone").click(function () {
+            var EditZone = {};
+            EditZone.Id = $("#EditZoneId").val();
+            EditZone.StateId = $("#ZoneSelect").val();
+            EditZone.ZoneName = $("#TxtZone").val();
+            if (EditZone.Id == 0) { alert("Oops Somthing Wrong Please Try Again"); }
+            else if (EditZone.StateId == 0) { $('#msgZone').html("<span style='color: red'>Please Select State.</span>"); }
+            else if (EditZone.ZoneName.length == 0) { $('#msgZone').html("<span style='color: red'>Please Enter Zone Name.</span>"); }
+            else if (EditZone.Id > 0 && EditZone.StateId > 0 && EditZone.ZoneName.length > 0) {
+
+                $.ajax({
+                    url: "/Area/UpdateZone",
+                    method: "post",
+                    data: { model: EditZone },
+                    success: function (Result) {
+                        if (Result == true) {
+                            alert("Record Sucessfully Updated");
+                            location.reload();
+                        }
+                        else {
+                            alert("oops Something Wrong Please Try Again");
+                            $('#msgZone').val('');
+                        }
+                    }
+                });
+
+            }
+        });
+    }
+    function ZoneActive_Deactive(Id) {
+        var ZoneActiveValues = {};
+        ZoneActiveValues.Id = Id;
+
+        if (ZoneActiveValues.Id > 0) {
+            var alertmsg = confirm("Are you Sure You Want change Mode");
+            if (alertmsg == true) {
+                $.ajax({
+                    url: "/Area/UpdateZone",
+                    method: "Post",
+                    data: { model: ZoneActiveValues },
+                    success: function (Result) {
+                        if (Result == 1) {
+                            alert("Zone Is Activated");
+                            location.reload();
+                        }
+                        else if (Result == 2) {
+                            alert("Zone Is DeActivated");
+                            location.reload();
+                        }
+                        else if (Result == 3) {
+                            location.reload();
+                        }
+                    }
+                });
+            }
+        }
+        else {
+            $('#msgZone').hide();
+            alert("Please Try Again");
+        }
+    }
+    //End
+    //End
+</script>
+
+@*Add by Lucky*@
+<div class="container">
+    <div class="p-3 mb-2 bg-info text-white panel-heading">
+        <!-- Nav pills -->
+        <ul class="nav nav-pills" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="pill" href="#Area"> <h4>Add Area</h4></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="pill" href="#State"><h4>Add State</h4></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="pill" href="#Zone"><h4>Add Zone</h4></a>
+            </li>
+        </ul>
+    </div>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div id="Area" class="container tab-pane active">
+            <br>
+            @*<div class="panel panel-info" style="float:left">
+            <input type="hidden" id="EditRoleId" />
+            <div class="panel-heading">
+                <h3 class="panel-title">Add Role</h3>
+            </div>
+            <div class="panel-body">
+
+                <table class="table">
+                    <tr>
+
+                        <td>
+                            <input type="text" id="AddRole" autofocus="autofocus" class="form-control" placeholder="Add Role" />
+                            <span id="msg"></span>
+                        </td>
+                        <td>
+                            <input id="Submit" type="button" value="Submit" class="btn btn-info" onclick="RoleSubmit()" />
+                            <input id="EditRole" type="button" value="Update" class="btn btn-info" />
+                        </td>
+
+
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+
+        <div>
+            <table id="RoleTableList" class="table table-striped table-hover">
+                <thead>
+                    <tr class="info" style="cursor:pointer;">
+                        <th>Role Name</th>
+                        <th>Active</th>
+                        <th>Created Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var GetData in ViewBag.GetRoleList)
+                    {
+
+                        <tr>
+                            <td>@GetData.RoleName  </td>
+
+                            <td>@GetData.active</td>
+
+                            <td>@GetData.InsertedDate </td>
+
+                            <td>
+                                <input type='button' value='Edit' class='btn btn-sm btn-info' onclick="RoleUpdate('@GetData.Id','@GetData.RoleName')" />
+                                <input type='button' value='Active/Deactive' id="RoleActive/Deactive" class='btn btn-sm btn-info' onclick="RoleActive_Deactive('@GetData.Id')" />
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+
+            </table>
+        </div>*@
+            <div class="panel panel-info" style="float:left; width:100%" id="maindiv">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <table>
+                            <tr>
+                                <td>
+                                    Area  &nbsp; &nbsp; <input id="deleted" name="deleted" type="checkbox" onclick="checking(this);"> DE-ACTIVATED
+                                </td>
+                                <td style="padding-left:780px;">
+                                    <a href="~/Area/Insert_area">  <input type="button" value="Add New" class="btn btn-info" /></a>
+                                </td>
+                            </tr>
+                        </table>
+                    </h3>
+                </div>
+            </div>
+
+            <div class="form-horizontal">
+                <div>
+                    <table id="EmployeeTableList" class="table table-striped table-hover">
+                        <thead>
+                            <tr class="info" style="cursor:pointer;">
+                                <th>Area Name </th>
+                                <th>Zone Name</th>
+                                <th>State Name</th>
+                                <th>Pincode</th>
+                                <!--<th>Security</th>--> @*here*@
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var GetData in ViewBag.list_Area)
+                            {
+
+                                <tr>
+                                    <td>@GetData.Area_Name  </td>
+                                    <td>@GetData.Zone_id </td>
+                                    <td>@GetData.State_id </td>
+                                    <td>@GetData.pincode </td>
+                                    <td>
+                                        <a value='Edit' class='btn btn-sm btn-info'  href='Edit/@GetData.id'>Edit</a>
+                                        <input type='button' value='Deactive' id="Deactive" class='btn btn-sm btn-info' onclick="Delete('@GetData.id')" />
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div id="State" class="container tab-pane fade">
+            <br>
+            <div class="panel panel-info" style="float:left">
+                <input type="hidden" id="EditStateId" />
+                <div class="panel-heading">
+                    <h3 class="panel-title">Add State</h3>
+                </div>
+                <div class="panel-body">
+
+                    <table class="table">
+                        <tr>
+                            <td>
+                                <input type="text" id="Txtstate" autofocus="autofocus" class="form-control" placeholder="Enter State Name" />
+                                <span id="msgState"></span>
+                            </td>
+                            <td>
+                                <input id="SumitState" type="button" value="Submit" class="btn btn-info" onclick="StateSubmit()" />
+                                <input id="EditState" type="button" value="Update" class="btn btn-info" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div>
+                <div style="padding-top:15%"><h2>State List</h2></div>
+                <table id="StateTableList" class="table table-striped table-hover">
+                    <thead>
+                        <tr class="info" style="cursor:pointer;">
+                            <th>State Name</th>
+                            <th>Active</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var GetStateData in ViewBag.GetStateList)
+                        {
+                            <tr>
+                                <td>@GetStateData.StateName  </td>
+
+                                <td>@GetStateData.Active</td>
+
+                                <td>
+                                    <input type='button' value='Edit' class='btn btn-sm btn-info' onclick="StateUpdate('@GetStateData.Id','@GetStateData.StateName')" />
+                                    <input type='button' value='Active/Deactive' class='btn btn-sm btn-info' onclick="StateActive_Deactive('@GetStateData.Id')" />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="Zone" class="container tab-pane fade">
+            <br>
+            <div class="panel panel-info" style="float:left">
+                <input type="hidden" id="EditZoneId" />
+                <div class="panel-heading">
+                    <h3 class="panel-title">Add Zone</h3>
+                </div>
+                <div class="panel-body">
+
+                    <table class="table">
+                        <tr>
+                            <td>
+                                <select id="ZoneSelect" class="btn btn-info dropdown-toggle">
+                                    <option value="0" selected="selected">--Select State--</option>
+                                    @{
+                                        foreach (var Getstate in ViewBag.DropListState)
+                                        {
+                                            <option value="@Getstate.Id">@Getstate.DropName</option>
+                                        }
+                                    }
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" id="TxtZone" autofocus="autofocus" class="form-control" placeholder="Enter State Name" />
+                                <span id="msgZone"></span>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                <input id="SumitZone" type="button" value="Submit" class="btn btn-info" onclick="ZoneSubmit()" />
+                                <input id="EditZone" type="button" value="Update" class="btn btn-info" />
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+
+            <div>
+                <div style="padding-top:25%"><h2>Zone List</h2></div>
+                <table id="StateTableList" class="table table-striped table-hover">
+                    <thead>
+                        <tr class="info" style="cursor:pointer;">
+                            <th>Zone Name</th>
+                            <th>State Name</th>
+                            <th>Active</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var GetZoneData in ViewBag.GetZoneList)
+                        {
+                            <tr>
+                                <td>@GetZoneData.ZoneName  </td>
+
+                                <td>@GetZoneData.StateName  </td>
+
+                                <td>@GetZoneData.Active</td>
+
+                                <td>
+                                    <input type='button' value='Edit' class='btn btn-sm btn-info' onclick="ZoneUpdate('@GetZoneData.Id','@GetZoneData.StateId','@GetZoneData.ZoneName')" />
+                                    <input type='button' value='Active/Deactive' class='btn btn-sm btn-info' onclick="ZoneActive_Deactive('@GetZoneData.Id')" />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@*End*@
+
+<!--<div class="panel panel-info" style="float:left; width:100%" id="maindiv">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <table>
+                <tr>
+                    <td>
+                        Area  &nbsp; &nbsp; <input id="deleted" name="deleted" type="checkbox" onclick="checking(this);"> DE-ACTIVATED
+                    </td>
+                    <td style="padding-left:780px;">
+                        <a href="~/Area/Insert_area">  <input type="button" value="Add New" class="btn btn-info" /></a>
+                    </td>
+                </tr>
+            </table>
+        </h3>
+    </div>
+</div>
+
+<div class="form-horizontal">
+    <div>
+        <table id="EmployeeTableList" class="table table-striped table-hover">
+            <thead>
+                <tr class="info" style="cursor:pointer;">
+                    <th>Area Name </th>
+                    <th>Zone Name</th>
+                    <th>State Name</th>
+                    <th>Pincode</th>
+                    <!--<th>Security</th>-->--> <!--@*here*@
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var GetData in ViewBag.list_Area)
+                {
+
+                    <tr>
+                        <td>@GetData.Area_Name  </td>
+                        <td>@GetData.Zone_id </td>
+                        <td>@GetData.State_id </td>
+                        <td>@GetData.pincode </td>
+                        <td>
+                            <a value='Edit' class='btn btn-sm btn-info' onclick="return confirm('??')" href='Edit/@GetData.id'>Edit</a>
+                            <input type='button' value='Deactive' id="Deactive" class='btn btn-sm btn-info' onclick="Delete('@GetData.id')" />
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+    </div>
+
+
+</div>-->
+
+
+

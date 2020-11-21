@@ -80,7 +80,7 @@
     <div class="wrapper">
         <header class="main-header">
             <!-- Logo -->
-            <a href="~/" class="logo">
+            <a href="~/Login/Emp_Login" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>J</b>C</span>
                 <!-- logo for regular state and mobile devices -->
@@ -150,7 +150,7 @@
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    <li class="treeview">
+                    @*<li class="treeview">
 
                         <a href="#">
                             <i class="fa fa-share"></i> <span>Multilevel</span>
@@ -188,7 +188,7 @@
                             </li>
                             <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
                         </ul>
-                    </li>
+                    </li>*@
                 </ul>
                 <ul class="sidebar-menu" data-widget="tree">
                     @if (Model != null)
@@ -205,7 +205,7 @@
                                 <ul class="treeview-menu">
                                     @foreach (var firstItem in (Model.Where(s => s.ParentID == item.FirstOrDefault().NodeID).ToList()))
                                     {
-                                        <li class="treeview">
+                                        <li >
                                             <a href="@firstItem.destination">
                                                 <i class="fa fa-circle-o"></i> <span> @firstItem.NodeName</span>
                                                 <span class="pull-right-container">

@@ -123,12 +123,15 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Classes\Common_Class.cs" />
+    <Compile Include="Controllers\AreaController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Area_Model.cs" />
     <Compile Include="Models\Employees_Modal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -6952,7 +6955,10 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Img\call_center.jpg" />
+    <Content Include="Img\hrose.gif" />
     <Content Include="Img\jivo-wellness.png" />
+    <Content Include="Img\prog.gif" />
     <Content Include="scripts\Angular\angular-animate.js" />
     <Content Include="scripts\Angular\angular.min.js" />
     <Content Include="scripts\Angular\dirPagination.js" />
@@ -7709,6 +7715,16 @@
     <Content Include="Views\Login\Emp_Login.cshtml" />
     <Content Include="Views\Login\Employee_Login.cshtml" />
     <Content Include="Views\Home\About2.cshtml" />
+    <Content Include="Views\Employee\Index.cshtml" />
+    <Content Include="Views\Employee\EmployeeRegistration.cshtml" />
+    <Content Include="Views\Employee\Edit_Employee.cshtml" />
+    <Content Include="Views\Area\Index.cshtml" />
+    <Content Include="Views\Area\Edit.cshtml" />
+    <Content Include="Views\Area\insert_area.cshtml" />
+    <Content Include="Views\Item\Index.cshtml" />
+    <Content Include="Views\Item\Insert_Item.cshtml" />
+    <Content Include="Views\Item\Edit_Item.cshtml" />
+    <Content Include="Views\Login\AddRole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7717,7 +7733,6 @@
     <Folder Include="bower_components\inputmask\dist\min\inputmask\global\" />
     <Folder Include="bower_components\inputmask\dist\min\inputmask\phone-codes\" />
     <Folder Include="bower_components\select2\docs\dist\" />
-    <Folder Include="Views\Employee\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

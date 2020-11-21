@@ -1,0 +1,196 @@
+﻿
+@{
+    ViewBag.Title = "Insert Item";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Insert Item</h2>
+
+
+<script type="text/javascript">
+    function ItemSubmit() {
+        var Values = {};
+        Values.item_name = $('#txt_Item_Name').val();
+        Values.category = $('#dd_category').val();
+        Values.sub_category = $('#txt_subCategory').val();
+        Values.UOM = $('#dd_UOM').val();
+        Values.UOM_value = $('#txt_UOM_Value').val();
+        Values.rate = $('#txt_Rate').val();
+        Values.Scheme_values = $('#txt_Scheme_values').val();
+        Values.scheme_qty = $('#txt_Scheme_qty').val();
+        Values.gst = $('#txt_Scheme_qty').val();
+        
+        if (Values.item_name.length != 0) {
+            $('#msg').val('');
+            $.ajax({
+                url: "/Item/Insert_Item",
+                method: "Post",
+                data: { item: Values },
+                success: function (Result) {
+                    if (Result == '1') {
+                        //$('#msg').html("<div class='alert alert-success alert-dismissible'><a href = '#' class= 'close' data - dismiss='alert' aria - label='close' ></a><strong>Success!</strong> Record Sucessfully Saved.</div>");
+                        //$('#msg').fadeOut(5000);
+                        //$('#msg').fadeOut("Slow");
+                        alert("Item Registered Successfully !!.");
+                        location.reload();
+                    }
+                    else if (Result == '-1') {
+                        alert("Item Name Is Already Exists Please Try Again.");
+                        //$('#msg').html("<div class='alert alert-danger alert-dismissible'><a href = '#' class= 'close' data - dismiss='alert' aria - label='close' ></a><strong>Sorry!</strong> Record Is Already Exists Please Try Again.</div>");
+                        //$('#msg').fadeOut(5000);
+                        //$('#msg').fadeOut("Slow");
+                    }
+                    else {
+                        alert("Oops....Something Gone Wrong ! Please Try Again");
+                    }
+                }
+            });
+        }
+        else {
+            //   $('#msg').html("<span style='background-color:red;color:white'>Please Enter User Name.</span>");
+            alert("Please Enter Area Name.");
+        }
+    }
+
+    function checkUserName() {
+        if ($('#txt_userName').val().length != 0) {
+            $('#msg').val('');
+            $.ajax({
+                url: "/Employee/checkuserName",
+                method: "Post",
+                data: { username: $('#txt_userName').val() },
+                success: function (Result) {
+                    if (Result == true) {
+                        // $('#lbl_userMSG').val('User Name Alredy Exists');
+                        //   alert("User Name Alredy Exists");
+                        $("#txt_userName").val('');
+                        $("#lbl_userMSG").html("<span style='color:red'>Allready Exists</span>");
+                    }
+                    else {
+                        //   $('#lbl_userMSG').val('User Name Available');
+                        $("#lbl_userMSG").html("<span style='color:Green'>User Name Available</span>");
+                    }
+                }
+            })
+        }
+    }
+
+</script>
+
+<script type="text/javascript"></script>
+<div class="form-horizontal">
+    <hr />
+    <span id="msg"></span>
+
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            <label>Item Name</label>
+        </div>
+
+        <div class="col-md-3">
+            <input type="text" id="txt_Item_Name" placeholder="Enter Item Name" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            <label>Category</label>
+        </div>
+
+        <div class="col-md-3">
+            <select id="dd_category" class="form-control" >
+                <option value="0" selected >---Select---</option>
+                <option value="Conola">Conola</option>
+                <option value="WheatGrass">WheatGrass</option>
+                <option value="Olive">Olive</option>
+                <option value="Mustard">Mustard</option>
+                <option value="Mussli">Musli</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            <label>Sub Category</label>
+        </div>
+
+        <div class="col-md-3">
+            <input type="text" id="txt_subCategory" placeholder="Enter Pin Code" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            <label>UOM</label>
+        </div>
+
+        <div class="col-md-3">
+            <select id="dd_UOM" class="form-control">
+                <option value="0">--- Select UOM ---</option>
+                <option value="Liters">Liters</option>
+                <option value="Box">Box</option>
+                <option value="Dozen">Dozen</option>
+            </select>
+            
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            <label>UOM Value</label>
+        </div>
+
+        <div class="col-md-3">
+            <input type="number"  id="txt_UOM_Value" placeholder="Enter UOM Values" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            <label>Rate</label>
+        </div>
+
+        <div class="col-md-3">
+            <input type="text" id="txt_Rate" placeholder="Enter Rate" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            <label>Scheme values</label>
+        </div>
+
+        <div class="col-md-3">
+            <input type="text" id="txt_Scheme_values" placeholder="Enter Scheme values" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            <label>Scheme Quantity</label>
+        </div>
+
+        <div class="col-md-3">
+            <input type="text" id="txt_Scheme_qty" placeholder="Enter Scheme Quantity" class="form-control" />
+        </div>
+    </div>
+   
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            <label>GST%</label>
+        </div>
+
+        <div class="col-md-3">
+            <input type="text" id="txt_gst" placeholder="Enter GST%" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-3">
+            <input type="submit" value="Submit" onclick="ItemSubmit()" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
+<div>
+    <a href="~/Item/Index">  <input type="button" value="Back" class="btn btn-info" /></a>
+</div>

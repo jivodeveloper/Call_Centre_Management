@@ -104,6 +104,94 @@ namespace Call_Centre_Management.Controllers
             return RedirectToAction("Employee_Login", "Login");
         }
 
+        // lucky ka kaam
+        [HttpGet]
+        public ActionResult AddRole()
+        {
+            List<MasterRole> RolesList = new List<MasterRole>();
+            List<StateMasterModal> StateList = new List<StateMasterModal>();
+            List<ZoneMastermodal> ZoneList = new List<ZoneMastermodal>();
+            List<DropdownLit> DropList = new List<DropdownLit>();
+            dict.Clear();
+            dict.Add("@mode", "GetRoleRecord");
+            DataSet dt = common_Class.return_dataset(dict, "Proc_role");
+            int r = Convert.ToInt32(dt.Tables.Count);
+            if (r > 0)
+            {
+                for (int i = 0; i < dt.Tables[0].Rows.Count; i++)
+                {
+                    MasterRole master = new MasterRole();
+                    master.Id = Convert.ToInt32(dt.Tables[0].Rows[i]["id"]);
+                    master.RoleName = dt.Tables[0].Rows[i]["Role"].ToString();
+                    master.active = Convert.ToInt32(dt.Tables[0].Rows[i]["Active"]).ToString() == "1" ? "Active" : "Deactive";
+                    master.InsertedDate = dt.Tables[0].Rows[i]["inserted_on"].ToString();
+                    RolesList.Add(master);
+                }
+                for (int j = 0; j < dt.Tables[1].Rows.Count; j++)
+                {
+                    StateMasterModal state = new StateMasterModal();
+                    state.Id = Convert.ToInt32(dt.Tables[1].Rows[j]["id"]);
+                    state.StateName = dt.Tables[1].Rows[j]["state"].ToString();
+                    state.Active = Convert.ToInt32(dt.Tables[1].Rows[j]["Active"]).ToString() == "1" ? "Active" : "Deactive";
+                    StateList.Add(state);
+                }
+                for (int k = 0; k < dt.Tables[2].Rows.Count; k++)
+                {
+                    ZoneMastermodal zone = new ZoneMastermodal();
+                    zone.Id = Convert.ToInt32(dt.Tables[2].Rows[k]["id"]);
+                    zone.StateId = Convert.ToInt32(dt.Tables[2].Rows[k]["State_id"]);
+                    zone.ZoneName = dt.Tables[2].Rows[k]["Zone"].ToString();
+                    zone.StateName = dt.Tables[2].Rows[k]["state"].ToString();
+                    zone.Active = Convert.ToInt32(dt.Tables[2].Rows[k]["active"]).ToString() == "1" ? "Active" : "Deactive";
+                    ZoneList.Add(zone);
+                }
+                for (int l = 0; l < dt.Tables[3].Rows.Count; l++)
+                {
+                    DropdownLit DDLState = new DropdownLit();
+                    DDLState.Id = Convert.ToInt32(dt.Tables[3].Rows[l]["id"]);
+                    DDLState.DropName = dt.Tables[3].Rows[l]["state"].ToString();
+                    DropList.Add(DDLState);
+                }
+                ViewBag.DropListState = DropList;
+                ViewBag.GetZoneList = ZoneList;
+                ViewBag.GetRoleList = RolesList;
+                ViewBag.GetStateList = StateList;
+            }
+            return View();
+        }
+        [HttpPost]
+        public ActionResult InsertRole(MasterRole model)
+        {
+            dict.Clear();
+            dict.Add("@Role", model.RoleName);
+            dict.Add("@mode", "InsertRole");
+            int i = common_Class.return_nonquery(dict, "Proc_role");
+            var Result = i > 0 ? Convert.ToBoolean(true).ToString() : Convert.ToBoolean(false).ToString();
+            return Json(Result, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult EditRole(MasterRole model)
+        {
+            dict.Clear();
+            dict.Add("@id", model.Id);
+            if (model.Id > 0 && model.RoleName != null)
+            {
+                dict.Add("@Role", model.RoleName);
+                dict.Add("@mode", "UpdateRole");
+                int i = common_Class.return_nonquery(dict, "Proc_role");
+                var Result = i > 0 ? Convert.ToBoolean(true).ToString() : Convert.ToBoolean(false).ToString();
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            else if (model.Id > 0 && model.RoleName == null)
+            {
+                dict.Add("@mode", "RoleActive/Diactivate");
+                DataTable dt = common_Class.return_datatable(dict, "Proc_role");
+                int Result2 = Convert.ToInt32(dt.Rows[0][0].ToString());
+                return Json(Result2, JsonRequestBehavior.AllowGet);
+            }
+            return Json(3, JsonRequestBehavior.AllowGet);
+        }
+
     }
 
 }
