@@ -49,6 +49,7 @@ namespace Call_Centre_Management.Models
         [Display(Name = "Enter Password")]
         public string password { get; set; }
         public string role { get; set; }
+        
 
     }
     public class MenuMaster

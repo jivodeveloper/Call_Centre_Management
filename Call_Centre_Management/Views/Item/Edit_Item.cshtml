@@ -99,12 +99,61 @@
 
         <div class="col-md-3">
             <select id="dd_category" class="form-control">
-                <option value="0" selected>---Select---</option>
-                <option value="Conola">Conola</option>
-                <option value="WheatGrass">WheatGrass</option>
-                <option value="Olive">Olive</option>
-                <option value="Mustard">Mustard</option>
-                <option value="Mussli">Musli</option>
+                @{ if (ViewBag.get_Edit_item.category == "Conola")
+                    {
+                        <option value="Conola" selected="selected">Conola</option>
+                        <option value="WheatGrass">WheatGrass</option>
+                        <option value="Olive">Olive</option>
+                        <option value="Mustard">Mustard</option>
+                        <option value="Mussli">Musli</option>
+                    }
+                    else if (ViewBag.get_Edit_item.category == "WheatGrass")
+                    {
+                        <option value="Conola">Conola</option>
+                        <option value="WheatGrass" selected="selected">WheatGrass</option>
+                        <option value="Olive">Olive</option>
+                        <option value="Mustard">Mustard</option>
+                        <option value="Mussli">Musli</option>
+
+                    }
+                    else if (ViewBag.get_Edit_item.category == "Olive")
+                    {
+                        <option value="Conola">Conola</option>
+                        <option value="WheatGrass">WheatGrass</option>
+                        <option value="Olive" selected="selected">Olive</option>
+                        <option value="Mustard">Mustard</option>
+                        <option value="Mussli">Musli</option>
+
+                    }
+                    else if (ViewBag.get_Edit_item.category == "Mustard")
+                    {
+                        <option value="Conola">Conola</option>
+                        <option value="WheatGrass">WheatGrass</option>
+                        <option value="Olive">Olive</option>
+                        <option value="Mustard" selected="selected">Mustard</option>
+                        <option value="Mussli">Musli</option>
+
+                    }
+                    else if (ViewBag.get_Edit_item.category == "Mussli")
+                    {
+                        <option value="Conola">Conola</option>
+                        <option value="WheatGrass">WheatGrass</option>
+                        <option value="Olive">Olive</option>
+                        <option value="Mustard">Mustard</option>
+                        <option value="Mussli" selected="selected">Musli</option>
+
+                    }
+                    else
+                    {
+                        <option value="0" selected="selected">---Select---</option>
+                        <option value="Conola">Conola</option>
+                        <option value="WheatGrass">WheatGrass</option>
+                        <option value="Olive">Olive</option>
+                        <option value="Mustard">Mustard</option>
+                        <option value="Mussli">Musli</option>
+                    }
+                }
+
             </select>
         </div>
     </div>

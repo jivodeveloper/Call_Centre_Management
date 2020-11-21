@@ -18,7 +18,7 @@
         Values.role = $('#dd_role').val();
         Values.email = $('#txt_email').val();
         Values.address = $('#txt_address').val();
-        Values.area = $('#txt_area').val(); 
+        Values.area = $('#txt_area').val();
         Values.state = $('#dd_state').val();
         Values.Security = $('#txt_security').val();
         Values.userName = $('#txt_userName').val();
@@ -103,10 +103,34 @@
         </div>
         <div class="col-md-3">
             <select id="dd_gender" class="form-control">
-                <option value='0'>--- Select Gender ---</option>
-                <option value='Male'>Male</option>
-                <option value='Female'>Female</option>
-                <option value='Other'>Other</option>
+                @{
+                    if (ViewBag.Employee.gender == "Male")
+                    {
+                        <option value='Male' selected="selected">Male</option>
+                        <option value='Female'>Female</option>
+                        <option value='Other'>Other</option>
+                    }
+                    else if (ViewBag.Employee.gender == "Female")
+                    {
+                        <option value='Male'>Male</option>
+                        <option value='Female' selected="selected">Female</option>
+                        <option value='Other'>Other</option>
+                    }
+                    else if (ViewBag.Employee.gender == "Other")
+                    {
+                        <option value='Male'>Male</option>
+                        <option value='Female'>Female</option>
+                        <option value='Other' selected="selected">Other</option>
+                    }
+                    else
+                    {
+                        <option value='0'>--- Select Gender ---</option>
+                        <option value='Male'>Male</option>
+                        <option value='Female'>Female</option>
+                        <option value='Other'>Other</option>
+                    }
+                }
+
             </select>
 
         </div>
@@ -152,7 +176,16 @@
                 @{
                     foreach (var role in ViewBag.getrole)
                     {
-                        <option value="@role.Id">@role.role</option>
+                        if (role.Id == Convert.ToInt32(ViewBag.Employee.role))
+                        {
+                            <option value="@role.Id" selected="selected">@role.role</option>
+
+                        }
+                        else
+                        {
+                            <option value="@role.Id">@role.role</option>
+
+                        }
                     }
                 }
             </select>
@@ -187,8 +220,14 @@
                 @{
                     foreach (var state in ViewBag.getstate)
                     {
-
-                        <option value="@state.Id">@state.State</option>
+                        if (state.Id == Convert.ToInt32(ViewBag.Employee.state))
+                        {
+                            <option value="@state.Id" selected="selected">@state.State</option>
+                        }
+                        else
+                        {
+                            <option value="@state.Id">@state.State</option>
+                        }
                     }
 
                 }

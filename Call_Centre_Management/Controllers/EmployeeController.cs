@@ -186,10 +186,9 @@ namespace Call_Centre_Management.Controllers
                 emp.role = dt.Rows[0]["role"].ToString();
                 emp.userName = dt.Rows[0]["userName"].ToString();
                 emp.password = dt.Rows[0]["password"].ToString();
-
             }
             ViewBag.Employee = emp;
-            return View(emp);
+            return View();
         }
 
         [HttpGet]
