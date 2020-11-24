@@ -1,0 +1,202 @@
+﻿
+@{
+    //ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#t1").addClass("danger");
+        $("#t2").addClass("info");
+        $("#t3").addClass("success");
+        $("#t4").addClass("active");
+        $("#t5").addClass("warning");
+        $("#t6").addClass("");
+    });
+
+    function Itemtabs() {
+
+        $('#myModal').modal('toggle');
+        $('#myModal').modal('show');
+    }
+
+    function Locationtab() {
+
+        $('#myModalLocation').modal('toggle');
+        $('#myModalLocation').modal('show');
+    }
+
+   function MainTableAddrows() {
+       $("#mainTable tbody").append('<tr id="t1"><td><input type="text" class="form-control" /></td ><td><input type="text" class="form-control" /></td><td><input type="text" class="form-control" /></td><td><input type="text" class="form-control" onfocus="Locationtab()" /> </td><td><input type="text" class="form-control" /></td><td><input type="text" class="form-control" onfocus="Itemtabs()" /> </td><td><label class="form-control">52</label></td><td><label class="form-control">654</label></td><td><select class="form-control"><option value="0">--Select Payment Mode--</option><option value="1">Cod</option><option value="2">Online</option></select></td><td><textarea class="form-control"></textarea></td><td><textarea class="form-control"></textarea></td><td><input type="button" value="Submit" class="btn btn-sm btn-info" /><a  style="cursor: pointer;"  onclick="RemoveRows(this)">X</a></td></tr>');
+    };
+
+   function RemoveRows(r)
+    {
+        r.closest("tr").remove();
+    }
+
+    function ItemTableAddRows()
+    {
+        $("#ItemTable tbody").append('<tr><td><input type="text" class="form-control" /></td> <td><input type="text" class="form-control" disabled="disabled"/></td> <td><input type="text" class="form-control"/></td> <td><input type="text" class="form-control" disabled /></td></tr>');
+    }
+
+</script>
+
+
+<div style="float:left;padding-left:94%; width:100%">
+        
+            <table>
+                <tr>
+                    <td>
+                        <input type='button' value='Add' onclick="MainTableAddrows()" class='btn btn-sm btn-info' />
+                    </td>
+                </tr>
+            </table>
+</div>
+
+
+<table id="mainTable" class="table table-dark">
+    
+    <thead>
+        <tr>
+            <th>Contact Number</th>
+            <th>Name</th>
+            <th>Pincode</th>
+            <th>Location</th>
+            <th>Land MArk</th>
+            <th>Item</th>
+            <th>Total Price</th>
+            <th>Total quantity</th>
+            <th>Payment mode</th>
+            <th>PayMent Remark</th>
+            <th>Remark</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr id="t1">
+            <td><input type="text" class="form-control" /></td>
+            <td><input type="text" class="form-control" /></td>
+            <td><input type="text" class="form-control" /></td>
+            <td><input type="text" class="form-control" onfocus="Locationtab()" /> </td>
+            <td><input type="text" class="form-control" /></td>
+            <td><input type="text" class="form-control" onfocus="Itemtabs()" /> </td>
+            @*data-toggle="modal" data-target="#myModal"*@
+            <td><label class="form-control">52</label></td>
+            <td><label class="form-control">654</label></td>
+            <td>
+                <select class="form-control">
+                    <option value="0">--Select Payment Mode--</option>
+                    <option value="1">Cod</option>
+                    <option value="2">Online</option>
+                </select>
+            </td>
+            <td><textarea class="form-control"></textarea></td>
+            <td><textarea class="form-control"></textarea></td>
+            <td><input type="button" value="Submit" class="btn btn-sm btn-info" /></td>
+            
+        </tr>
+    </tbody>
+</table>
+
+
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            
+            <div class="modal-body">
+                <div> <input type='button' value='Add' class='btn btn-sm btn-info' onclick="ItemTableAddRows()"/></div>
+                <div class="table-responsive" >
+                    <!--Table-->
+                    <table class="table table-striped" id="ItemTable">
+
+                        <!--Table head-->
+                        <thead>
+                            <tr>
+                                <th>Item Name</th>
+                                <th>Rate</th>
+                                <th>Quantity</th>
+                                <th>Total Amount</th>
+                            </tr>
+                        </thead>
+                        <!--Table head-->
+                        <!--Table body-->
+                        <tbody>
+                            <tr>
+                                <td><input type="text" class="form-control" /></td>
+                                <td><input type="text" class="form-control" disabled="disabled" /></td>
+                                <td><input type="text" class="form-control" /></td>
+                                <td><input type="text" class="form-control" disabled /></td>
+                                
+                            </tr>
+                        </tbody>
+                        <!--Table body-->
+                    </table>
+                    <!--Table-->
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+  </div>
+</div>
+
+
+
+<div id="myModalLocation" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label>Zone</label>&nbsp;&nbsp;:
+                    <select class="form-control">
+                        <option value="0">--Select Zone--</option>
+                        <option value="1">Alipur</option>
+                    </select>
+                </div>
+                    <div>
+                        <label>Area</label>&nbsp;&nbsp;:
+                        <select class="form-control">
+                            <option value="0">--Select Area--</option>
+                            <option value="1">Mata chock</option>
+                        </select>
+
+                    </div>
+                    <div>
+                        <label>State</label>&nbsp;&nbsp;:
+                        <select class="form-control">
+                            <option value="0">--Select State--</option>
+                            <option value="1">Delhi</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Address</label>&nbsp;&nbsp;:
+                        <textarea class="form-control"></textarea>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

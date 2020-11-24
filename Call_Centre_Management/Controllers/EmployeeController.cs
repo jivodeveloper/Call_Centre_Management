@@ -192,7 +192,6 @@ namespace Call_Centre_Management.Controllers
         }
 
         [HttpGet]
-
         public ActionResult Employee_Delete(int id)
         {
             dict.Clear();
@@ -201,5 +200,6 @@ namespace Call_Centre_Management.Controllers
             var result = commonClass.return_nonquery(dict, "proc_employee");
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+        
     }
 }
